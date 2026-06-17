@@ -1,26 +1,65 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --lacre:      #6B1F1F;
+  --oro:        #C9A84C;
+  --oro-claro:  #E8C97A;
+  --tinta:      #1A1008;
+  --pergamino:  #F5EDD6;
+  --superficie: #211508;
+  --superficie2: #2E1C0A;
+  --borde:      #3D1A0A;
+  --texto:      #E8DCC8;
+  --texto-suave: #A89070;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--tinta);
+  color: var(--texto);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--pergamino);
+}
+
+h1 { font-size: clamp(2.5rem, 6vw, 5rem); }
+h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.3rem, 2.5vw, 2rem); }
+
+a { color: var(--oro); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--oro-claro); }
+
+::selection {
+  background: var(--lacre);
+  color: var(--pergamino);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--borde);
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .hidden-mobile { display: none !important; }
+  .show-mobile   { display: block !important; }
+}
+
+@media (min-width: 769px) {
+  .show-mobile { display: none !important; }
 }
