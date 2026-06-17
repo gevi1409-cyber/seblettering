@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#1A1008}
+  ::selection{background:#6B1F1F;color:#E8DCC8}
+  @keyframes sebFade{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes sebSeal{from{opacity:0;transform:scale(.92) rotate(-3deg)}to{opacity:1;transform:none}}
+  @keyframes sebRing{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.35);opacity:0}}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;font-family:'Lora',serif;color:#E8DCC8;overflow-x:hidden;background:radial-gradient(120% 75% at 50% -8%, rgba(201,168,76,0.10), transparent 55%), radial-gradient(100% 60% at 50% 118%, rgba(107,31,31,0.20), transparent 62%), #1A1008;">
+
+  <div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.06;mix-blend-mode:overlay;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%222%22 stitchTiles=%22stitch%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>');"></div>
+  <div aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(130% 120% at 50% 42%, transparent 58%, rgba(0,0,0,0.55) 100%);"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:16px clamp(20px,5vw,56px);border-bottom:1px solid #3D1A0A;background:rgba(22,13,6,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);">
+    <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:14px;cursor:pointer;">
+      <img src="uploads/sello.png" alt="Sello seb.lettering" style="width:50px;height:50px;flex:none;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.55));">
+      <span style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:#C9A84C;letter-spacing:1.5px;">Seb Lettering</span>
+    </div>
+
+    <nav style="display:flex;align-items:center;gap:clamp(14px,2.2vw,30px);flex-wrap:wrap;">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+        <div onClick="{{ item.onClick }}" style="position:relative;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:{{ item.color }};padding:4px 0;transition:color .25s ease;" style-hover="color:#E8DCC8;">
+          {{ item.label }}
+          <sc-if value="{{ item.active }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;left:0;right:0;bottom:-2px;height:1.5px;background:#C9A84C;"></span>
+          </sc-if>
+        </div>
+      </sc-for>
+      <div onClick="{{ openJoin }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;padding:9px 20px;border:1px solid #C9A84C;border-radius:2px;transition:all .25s ease;" style-hover="background:#C9A84C;color:#1A1008;">Únete</div>
+    </nav>
+  </header>
+
+  <main style="position:relative;z-index:2;">
+
+  <!-- ============ HOME ============ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Home">
+
+    <!-- HERO -->
+    <section style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,5vw,56px) clamp(36px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(36px,5vw,72px);align-items:center;">
+      <div>
+        <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#A89070;margin-bottom:22px;display:flex;align-items:center;gap:14px;">
+          <span style="width:32px;height:1px;background:#6B1F1F;"></span>Notaría del Alma · Est. 2024
+        </div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(46px,7vw,86px);line-height:0.98;margin:0 0 26px;color:#E8DCC8;letter-spacing:-0.5px;">Lo que es real,<br><span style="font-style:italic;color:#C9A84C;">se honra.</span></h1>
+        <p style="font-family:'Lora',serif;font-size:clamp(17px,2vw,20px);line-height:1.65;color:#A89070;max-width:30em;margin:0 0 38px;">Un sello editorial que custodia memorias verdaderas. Aquí no se inventan vidas: se graban. Cada libro es un testimonio que se niega al olvido.</p>
+        <div style="display:flex;flex-direction:column;gap:14px;max-width:340px;">
+          <div onClick="{{ goBiblioteca }}" style="cursor:pointer;text-align:center;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#E8DCC8;padding:17px 28px;background:#6B1F1F;border:1px solid #6B1F1F;border-radius:2px;transition:all .25s ease;box-shadow:0 6px 24px rgba(107,31,31,0.35);" style-hover="background:#822727;transform:translateY(-2px);">Entrar al archivo</div>
+          <div onClick="{{ goEntrelazados }}" style="cursor:pointer;text-align:center;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;padding:17px 28px;background:transparent;border:1px solid #3D1A0A;border-radius:2px;transition:all .25s ease;" style-hover="border-color:#C9A84C;">Ver Entrelazados</div>
+        </div>
+      </div>
+
+      <div style="position:relative;display:grid;place-items:center;min-height:340px;">
+        <div aria-hidden="true" style="position:absolute;width:min(78vw,420px);height:min(78vw,420px);border:1px solid rgba(201,168,76,0.18);border-radius:50%;"></div>
+        <div aria-hidden="true" style="position:absolute;width:min(60vw,330px);height:min(60vw,330px);border:1px solid rgba(201,168,76,0.12);border-radius:50%;"></div>
+        <div aria-hidden="true" style="position:absolute;width:min(60vw,330px);height:min(60vw,330px);border-radius:50%;border:1px solid rgba(201,168,76,0.4);animation:sebRing 4.5s ease-out infinite;"></div>
+        <!-- SEAL real -->
+        <img src="uploads/sello.png" alt="Sello de lacre seb.lettering — Traduciendo memoria en arte" style="position:relative;width:min(64vw,360px);height:auto;filter:drop-shadow(0 22px 46px rgba(0,0,0,0.6));">
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section style="border-top:1px solid #3D1A0A;border-bottom:1px solid #3D1A0A;background:rgba(33,21,8,0.5);">
+      <div style="max-width:1240px;margin:0 auto;padding:30px clamp(20px,5vw,56px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;align-items:center;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="display:flex;align-items:baseline;gap:14px;">
+            <span style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,5vw,52px);color:#C9A84C;line-height:1;">{{ s.value }}</span>
+            <span style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#A89070;max-width:7em;">{{ s.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- DOS PUERTAS -->
+    <section style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,96px) clamp(20px,5vw,56px);">
+      <div style="text-align:center;margin-bottom:48px;">
+        <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#A89070;margin-bottom:14px;">Dos puertas, un mismo destino</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(32px,5vw,52px);margin:0;color:#E8DCC8;">La trascendencia</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;">
+        <sc-for list="{{ puertas }}" as="p" hint-placeholder-count="2">
+          <div onClick="{{ p.onClick }}" style="cursor:pointer;position:relative;overflow:hidden;border:1px solid #3D1A0A;border-radius:3px;padding:clamp(32px,4vw,48px);background:linear-gradient(160deg, #211508, #1A1008);transition:all .3s ease;" style-hover="border-color:#6B1F1F;transform:translateY(-4px);">
+            <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9A84C;margin-bottom:20px;">{{ p.kicker }}</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,3.5vw,40px);line-height:1.05;margin:0 0 16px;color:#E8DCC8;">{{ p.title }}</h3>
+            <p style="font-family:'Lora',serif;font-size:16px;line-height:1.6;color:#A89070;margin:0 0 28px;">{{ p.body }}</p>
+            <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;display:flex;align-items:center;gap:10px;">{{ p.cta }} <span style="font-size:16px;">→</span></div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- ENTRELAZADOS TEASER -->
+    <section style="border-top:1px solid #3D1A0A;background:rgba(33,21,8,0.4);">
+      <div style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,96px) clamp(20px,5vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(40px,5vw,64px);align-items:start;">
+        <div style="position:sticky;top:96px;">
+          <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#C9A84C;margin-bottom:18px;">El Podcast · Temporada 01</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,5vw,58px);line-height:1;margin:0 0 22px;color:#E8DCC8;">Entrelazados</h2>
+          <p style="font-family:'Lora',serif;font-size:17px;line-height:1.7;color:#A89070;margin:0 0 14px;max-width:32em;">Once autores se sientan a diseccionar la realidad detrás de sus obras. El oficio, la técnica y la vivencia humana que sostiene cada página — lejos de las fórmulas, más cerca de la verdad.</p>
+          <p style="font-family:'Lora',serif;font-style:italic;font-size:17px;line-height:1.6;color:#C9A84C;margin:0 0 30px;">«Más realidad, menos ficción.»</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div onClick="{{ goEntrelazados }}" style="display:inline-flex;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;padding:14px 26px;border:1px solid #3D1A0A;border-radius:2px;transition:all .25s ease;" style-hover="border-color:#C9A84C;">Ver todos los episodios</div>
+          <a href="https://youtube.com/@seb.lettering" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#E8DCC8;padding:14px 26px;background:#6B1F1F;border:1px solid #6B1F1F;border-radius:2px;transition:all .25s ease;" style-hover="background:#822727;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"></path></svg>
+            Suscríbete
+          </a>
+        </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;">
+          <sc-for list="{{ teaserEpisodes }}" as="ep" hint-placeholder-count="6">
+            <div onClick="{{ ep.onClick }}" style="cursor:pointer;border:1px solid #3D1A0A;border-radius:3px;padding:18px;background:#1A1008;transition:all .25s ease;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;" style-hover="border-color:#C9A84C;background:#211508;">
+              <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;color:#6B1F1F;line-height:1;">{{ ep.num }}</div>
+              <div>
+                <div style="font-family:'Lora',serif;font-size:15px;color:#E8DCC8;line-height:1.25;margin-bottom:4px;">{{ ep.title }}</div>
+                <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;">{{ ep.guest }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOSING QUOTE -->
+    <section style="max-width:980px;margin:0 auto;padding:clamp(72px,11vw,140px) clamp(20px,5vw,56px);text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:64px;color:#6B1F1F;line-height:0;height:30px;">“</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-weight:400;font-style:italic;font-size:clamp(28px,4.5vw,46px);line-height:1.3;color:#E8DCC8;margin:0;">Cada vida narrada es un capítulo que le da sentido a este colectivo.</p>
+      <div style="margin-top:34px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#A89070;">Sebastián Llano · Fundador</div>
+    </section>
+  </div>
+  </sc-if>
+
+  <!-- ============ BIBLIOTECA ============ -->
+  <sc-if value="{{ isBiblioteca }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Biblioteca" style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(20px,5vw,56px);">
+    <div style="margin-bottom:40px;">
+      <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#A89070;margin-bottom:14px;">El archivo</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,6vw,72px);margin:0 0 18px;color:#E8DCC8;line-height:1;">Biblioteca</h1>
+      <p style="font-family:'Lora',serif;font-size:18px;line-height:1.6;color:#A89070;max-width:40em;margin:0;">Volúmenes que custodian memorias verdaderas. La trilogía fundadora y las obras que se entrelazan con ella.</p>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;border-bottom:1px solid #3D1A0A;padding-bottom:20px;">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+        <div onClick="{{ f.onClick }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;border-radius:2px;border:1px solid {{ f.border }};color:{{ f.color }};background:{{ f.bg }};transition:all .2s ease;">{{ f.label }}</div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:28px;">
+      <sc-for list="{{ filteredBooks }}" as="b" hint-placeholder-count="6">
+        <div onClick="{{ b.onClick }}" style="cursor:pointer;transition:transform .3s ease;" style-hover="transform:translateY(-6px);">
+          <div style="position:relative;aspect-ratio:3/4.2;border-radius:3px;overflow:hidden;border:1px solid #3D1A0A;display:flex;flex-direction:column;justify-content:space-between;padding:24px 20px;background:linear-gradient(155deg, {{ b.accent }}, #1A1008 130%);box-shadow:0 14px 36px rgba(0,0,0,0.45);">
+            <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.12;background-image:repeating-linear-gradient(135deg, #E8DCC8 0 1px, transparent 1px 9px);"></div>
+            <div style="position:relative;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(232,220,200,0.7);">{{ b.kicker }}</div>
+            <div style="position:relative;">
+              <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:34px;line-height:1.02;color:#E8DCC8;">{{ b.title }}</div>
+              <div style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(232,220,200,0.4);">// portada — placeholder</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;">
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:21px;color:#E8DCC8;line-height:1.1;">{{ b.title }}</div>
+              <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;margin-top:3px;">{{ b.author }}</div>
+            </div>
+            <div style="flex:none;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 9px;border-radius:2px;border:1px solid {{ b.statusBorder }};color:{{ b.statusColor }};">{{ b.statusLabel }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ AUTORES ============ -->
+  <sc-if value="{{ isAutores }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Autores" style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(20px,5vw,56px);">
+    <div style="margin-bottom:48px;">
+      <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#A89070;margin-bottom:14px;">Las voces</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,6vw,72px);margin:0 0 18px;color:#E8DCC8;line-height:1;">Autores</h1>
+      <p style="font-family:'Lora',serif;font-size:18px;line-height:1.6;color:#A89070;max-width:40em;margin:0;">Once narradores que eligieron diseccionar su realidad. Detrás de cada libro, una vida que se negó al silencio.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;">
+      <sc-for list="{{ authors }}" as="a" hint-placeholder-count="8">
+        <div onClick="{{ a.onClick }}" style="cursor:pointer;display:flex;gap:16px;align-items:center;border:1px solid #3D1A0A;border-radius:3px;padding:18px;background:linear-gradient(160deg,#211508,#1A1008);transition:all .25s ease;" style-hover="border-color:#6B1F1F;transform:translateY(-3px);">
+          <div style="position:relative;flex:none;width:64px;height:64px;border-radius:50%;overflow:hidden;border:1px solid {{ a.accent }};background:radial-gradient(circle at 40% 35%, {{ a.accent }}, #1A1008 120%);display:grid;place-items:center;">
+            <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.18;background-image:repeating-linear-gradient(135deg,#E8DCC8 0 1px,transparent 1px 7px);"></div>
+            <span style="position:relative;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:#E8DCC8;">{{ a.initials }}</span>
+          </div>
+          <div style="min-width:0;">
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;color:#E8DCC8;line-height:1.05;">{{ a.name }}</div>
+            <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#C9A84C;margin:5px 0 7px;">{{ a.role }}</div>
+            <div style="font-family:'Lora',serif;font-size:13px;line-height:1.45;color:#A89070;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">{{ a.bio }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ ENTRELAZADOS ============ -->
+  <sc-if value="{{ isEntrelazados }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Entrelazados" style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(20px,5vw,56px);">
+    <div style="margin-bottom:clamp(32px,5vw,48px);max-width:44em;">
+      <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#C9A84C;margin-bottom:14px;">El Podcast · Temporada 01</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,6vw,72px);margin:0 0 18px;color:#E8DCC8;line-height:1;">Entrelazados</h1>
+      <p style="font-family:'Lora',serif;font-size:18px;line-height:1.65;color:#A89070;margin:0;">Voces que narran nuestra realidad. Un espacio de encuentro donde las historias reales se entrelazan para revelar la profundidad de nuestra condición humana, invitándote a escuchar el pulso de quienes han decidido convertir su experiencia en un libro.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,4vw,48px);align-items:center;margin-bottom:clamp(48px,7vw,80px);padding:clamp(20px,3vw,32px);border:1px solid #3D1A0A;border-radius:4px;background:linear-gradient(160deg,#211508,#1A1008);">
+      <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:3px;overflow:hidden;background:#000;border:1px solid #3D1A0A;">
+        <iframe src="https://www.youtube.com/embed/RjvQHVNs8Wg" title="Entrelazados — Bienvenida" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+      </div>
+      <div>
+        <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;">Bienvenida</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(26px,3vw,38px);line-height:1.1;margin:0 0 14px;color:#E8DCC8;">Más realidad, menos ficción.</h2>
+        <p style="font-family:'Lora',serif;font-size:16px;line-height:1.6;color:#A89070;margin:0 0 22px;">Soy Sebastián Llano. Aquí comparto el día a día de un escritor, diseñador y soñador que busca trascender a través de las historias. Suscríbete y entrelacemos nuestras experiencias.</p>
+        <a href="https://youtube.com/@seb.lettering" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#E8DCC8;padding:13px 24px;background:#6B1F1F;border-radius:2px;transition:all .25s ease;" style-hover="background:#822727;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"></path></svg>
+          Suscríbete al canal
+        </a>
+      </div>
+    </div>
+
+    <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#A89070;margin-bottom:24px;border-bottom:1px solid #3D1A0A;padding-bottom:16px;">Episodios · Temporada 01</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;">
+      <sc-for list="{{ episodesFull }}" as="ep" hint-placeholder-count="4">
+        <div onClick="{{ ep.onClick }}" style="cursor:pointer;border:1px solid #3D1A0A;border-radius:4px;overflow:hidden;background:linear-gradient(160deg,#211508,#1A1008);transition:all .25s ease;" style-hover="border-color:#C9A84C;transform:translateY(-4px);">
+          <div style="position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#3a1414,#1A1008);overflow:hidden;">
+            <sc-if value="{{ ep.hasThumb }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ ep.thumb }}" alt="{{ ep.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+            </sc-if>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(26,16,8,0.8), transparent 55%);"></div>
+            <div style="position:absolute;top:12px;left:12px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8DCC8;background:rgba(107,31,31,0.9);padding:5px 10px;border-radius:2px;">{{ ep.tag }}</div>
+            <div style="position:absolute;bottom:12px;right:12px;width:44px;height:44px;border-radius:50%;background:rgba(201,168,76,0.95);display:grid;place-items:center;color:#1A1008;font-size:15px;">▶</div>
+          </div>
+          <div style="padding:20px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;line-height:1.1;color:#E8DCC8;margin-bottom:6px;">{{ ep.title }}</div>
+            <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;">feat. {{ ep.guest }}</div>
+            <div style="font-family:'Lora',serif;font-size:14px;line-height:1.55;color:#A89070;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;">{{ ep.summary }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MANIFIESTO ============ -->
+  <sc-if value="{{ isManifiesto }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Manifiesto">
+    <div style="max-width:760px;margin:0 auto;padding:clamp(56px,9vw,120px) clamp(24px,5vw,40px);">
+      <div style="text-align:center;margin-bottom:clamp(48px,7vw,80px);">
+        <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#C9A84C;margin-bottom:24px;">Manifiesto Fundador</div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-style:italic;font-size:clamp(38px,6vw,68px);line-height:1.08;margin:0;color:#E8DCC8;">Lo que es real,<br>se honra.</h1>
+        <div style="width:48px;height:1px;background:#6B1F1F;margin:34px auto 0;"></div>
+      </div>
+      <div style="font-family:'Lora',serif;">
+        <sc-for list="{{ manifiestoParas }}" as="para" hint-placeholder-count="4">
+          <p style="font-size:clamp(17px,2.1vw,20px);line-height:1.85;color:#D8C9AE;margin:0 0 28px;text-wrap:pretty;">{{ para }}</p>
+        </sc-for>
+      </div>
+      <div style="margin-top:48px;padding-top:32px;border-top:1px solid #3D1A0A;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;color:#C9A84C;">— Sebastián Llano, 2024</div>
+      <div style="margin-top:40px;display:flex;gap:14px;flex-wrap:wrap;">
+        <div onClick="{{ openJoin }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#E8DCC8;padding:15px 26px;background:#6B1F1F;border-radius:2px;transition:all .25s ease;" style-hover="background:#822727;">Hablemos sobre tu obra</div>
+        <div onClick="{{ openJoin }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;padding:15px 26px;border:1px solid #3D1A0A;border-radius:2px;transition:all .25s ease;" style-hover="border-color:#C9A84C;">Comparte tu historia</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="position:relative;z-index:2;border-top:1px solid #3D1A0A;background:rgba(22,13,6,0.6);">
+    <div style="max-width:1240px;margin:0 auto;padding:40px clamp(20px,5vw,56px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#C9A84C;letter-spacing:1.5px;">Seb Lettering</div>
+      <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;">
+        <a href="https://youtube.com/@seb.lettering" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A89070;transition:color .25s ease;" style-hover="color:#E8DCC8;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"></path></svg>
+          @seb.lettering
+        </a>
+        <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A89070;">Notaría del Alma · Colombia · 2024</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ MODAL: LIBRO ============ -->
+  <sc-if value="{{ showBook }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(8,5,2,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;padding:24px;overflow-y:auto;">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:840px;background:#211508;border:1px solid #3D1A0A;border-radius:4px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,0.6);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+      <div style="position:relative;min-height:300px;padding:36px 30px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(155deg,{{ activeBook.accent }},#1A1008 130%);">
+        <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.12;background-image:repeating-linear-gradient(135deg,#E8DCC8 0 1px,transparent 1px 9px);"></div>
+        <div style="position:relative;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(232,220,200,0.7);">{{ activeBook.kicker }}</div>
+        <div style="position:relative;">
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(40px,6vw,56px);line-height:1;color:#E8DCC8;">{{ activeBook.title }}</div>
+          <div style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(232,220,200,0.4);">// portada — placeholder</div>
+        </div>
+      </div>
+      <div style="padding:clamp(28px,4vw,40px);">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;">
+          <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A89070;">{{ activeBook.author }} · {{ activeBook.year }}</div>
+          <div onClick="{{ closeModal }}" style="cursor:pointer;flex:none;width:30px;height:30px;border-radius:50%;border:1px solid #3D1A0A;display:grid;place-items:center;color:#A89070;font-family:'Inter',sans-serif;transition:all .2s ease;" style-hover="border-color:#C9A84C;color:#E8DCC8;">✕</div>
+        </div>
+        <div style="display:inline-block;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:2px;border:1px solid {{ activeBook.statusBorder }};color:{{ activeBook.statusColor }};margin-bottom:22px;">{{ activeBook.statusLabel }}</div>
+        <p style="font-family:'Lora',serif;font-size:16px;line-height:1.7;color:#D8C9AE;margin:0 0 26px;">{{ activeBook.synopsis }}</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div onClick="{{ activeBook.buy }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8DCC8;padding:13px 22px;background:#6B1F1F;border-radius:2px;transition:all .25s ease;" style-hover="background:#822727;">{{ activeBook.ctaLabel }}</div>
+          <div onClick="{{ goEntrelazados }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;padding:13px 22px;border:1px solid #3D1A0A;border-radius:2px;transition:all .25s ease;" style-hover="border-color:#C9A84C;">Ver en Entrelazados</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MODAL: AUTOR ============ -->
+  <sc-if value="{{ showAuthor }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(8,5,2,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;padding:24px;overflow-y:auto;">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:560px;background:#211508;border:1px solid #3D1A0A;border-radius:4px;padding:clamp(32px,5vw,48px);text-align:center;box-shadow:0 30px 90px rgba(0,0,0,0.6);">
+      <div onClick="{{ closeModal }}" style="position:absolute;top:18px;right:18px;cursor:pointer;width:30px;height:30px;border-radius:50%;border:1px solid #3D1A0A;display:grid;place-items:center;color:#A89070;transition:all .2s ease;" style-hover="border-color:#C9A84C;color:#E8DCC8;">✕</div>
+      <div style="position:relative;width:108px;height:108px;border-radius:50%;margin:0 auto 22px;overflow:hidden;border:1.5px solid {{ activeAuthor.accent }};background:radial-gradient(circle at 40% 35%,{{ activeAuthor.accent }},#1A1008 120%);display:grid;place-items:center;">
+        <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.18;background-image:repeating-linear-gradient(135deg,#E8DCC8 0 1px,transparent 1px 8px);"></div>
+        <span style="position:relative;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:40px;color:#E8DCC8;">{{ activeAuthor.initials }}</span>
+      </div>
+      <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:6px;">// foto — placeholder</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:34px;margin:0;color:#E8DCC8;">{{ activeAuthor.name }}</h3>
+      <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A89070;margin:8px 0 22px;">{{ activeAuthor.role }}</div>
+      <p style="font-family:'Lora',serif;font-size:16px;line-height:1.7;color:#D8C9AE;margin:0 auto 26px;max-width:38em;">{{ activeAuthor.bio }}</p>
+      <div onClick="{{ goEntrelazados }}" style="display:inline-flex;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;padding:13px 24px;border:1px solid #3D1A0A;border-radius:2px;transition:all .25s ease;" style-hover="border-color:#C9A84C;">Escuchar su episodio</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MODAL: EPISODIO ============ -->
+  <sc-if value="{{ showEpisode }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(8,5,2,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;padding:24px;overflow-y:auto;">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:600px;background:#211508;border:1px solid #3D1A0A;border-radius:4px;padding:clamp(32px,5vw,48px);box-shadow:0 30px 90px rgba(0,0,0,0.6);">
+      <div onClick="{{ closeModal }}" style="position:absolute;top:18px;right:18px;cursor:pointer;width:30px;height:30px;border-radius:50%;border:1px solid #3D1A0A;display:grid;place-items:center;color:#A89070;transition:all .2s ease;" style-hover="border-color:#C9A84C;color:#E8DCC8;">✕</div>
+      <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:18px;">
+        <span style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:64px;color:#6B1F1F;line-height:0.8;">{{ activeEpisode.num }}</span>
+        <div>
+          <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#A89070;">Entrelazados · {{ activeEpisode.tag }}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#C9A84C;margin-top:4px;">con {{ activeEpisode.guest }}</div>
+        </div>
+      </div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,4vw,40px);line-height:1.05;margin:0 0 18px;color:#E8DCC8;">{{ activeEpisode.title }}</h3>
+      <p style="font-family:'Lora',serif;font-size:16px;line-height:1.7;color:#D8C9AE;margin:0 0 28px;">{{ activeEpisode.summary }}</p>
+      <sc-if value="{{ activeEpisode.embed }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:3px;overflow:hidden;border:1px solid #3D1A0A;background:#000;">
+          <iframe src="{{ activeEpisode.embed }}" title="Entrelazados" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+        </div>
+      </sc-if>
+      <sc-if value="{{ activeEpisode.noVideo }}" hint-placeholder-val="{{ false }}">
+        <a href="https://youtube.com/@seb.lettering" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:space-between;gap:16px;text-decoration:none;padding:18px 20px;border:1px solid #3D1A0A;border-radius:3px;background:#1A1008;transition:all .25s ease;" style-hover="border-color:#C9A84C;">
+          <span style="font-family:'Lora',serif;font-size:15px;color:#A89070;">Disponible próximamente en el canal</span>
+          <span style="flex:none;display:inline-flex;align-items:center;gap:9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"></path></svg>YouTube</span>
+        </a>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MODAL: ÚNETE ============ -->
+  <sc-if value="{{ showJoin }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(8,5,2,0.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;padding:24px;overflow-y:auto;">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:620px;background:#211508;border:1px solid #3D1A0A;border-radius:4px;padding:clamp(36px,5vw,56px);text-align:center;box-shadow:0 30px 90px rgba(0,0,0,0.6);">
+      <div onClick="{{ closeModal }}" style="position:absolute;top:18px;right:18px;cursor:pointer;width:30px;height:30px;border-radius:50%;border:1px solid #3D1A0A;display:grid;place-items:center;color:#A89070;transition:all .2s ease;" style-hover="border-color:#C9A84C;color:#E8DCC8;">✕</div>
+      <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#C9A84C;margin-bottom:18px;">Inmortaliza tu realidad</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(32px,5vw,46px);line-height:1.05;margin:0 0 16px;color:#E8DCC8;">Únete al archivo</h3>
+      <p style="font-family:'Lora',serif;font-size:16px;line-height:1.65;color:#A89070;margin:0 auto 30px;max-width:36em;">¿Tienes un libro que merece un hogar, o una historia que arde pero no quieres escribir? Aquí transformamos vivencias en legado.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;text-align:left;">
+        <div style="border:1px solid #3D1A0A;border-radius:3px;padding:24px;background:#1A1008;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#E8DCC8;margin-bottom:8px;">Ya escribí mi obra</div>
+          <p style="font-family:'Lora',serif;font-size:14px;line-height:1.55;color:#A89070;margin:0 0 18px;">Integra tu libro al sello y entrelázate con una entrevista exclusiva.</p>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;">Hablemos sobre tu obra →</div>
+        </div>
+        <div style="border:1px solid #6B1F1F;border-radius:3px;padding:24px;background:linear-gradient(160deg,#2a1410,#1A1008);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#E8DCC8;margin-bottom:8px;">Tengo una historia</div>
+          <p style="font-family:'Lora',serif;font-size:14px;line-height:1.55;color:#A89070;margin:0 0 18px;">La escribo por ti. Tres vidas inmortalizadas cada año, desde la escucha activa.</p>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;">Comparte tu historia →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:880}}">
+class Component extends DCLogic {
+  state = { page: 'home', filter: 'todos', activeBook: null, activeAuthor: null, activeEpisode: null, activePost: null, authorId: null, blogCat: 'todos', showJoin: false };
+
+  go(page) { this.setState({ page, activeBook:null, activeAuthor:null, activeEpisode:null, activePost:null, showJoin:false }); try { window.scrollTo({top:0,behavior:'instant'}); } catch(e){ window.scrollTo(0,0); } }
+  goAuthor(id) { this.setState({ page:'autor', authorId:id, activeBook:null, activeAuthor:null, activeEpisode:null, activePost:null, showJoin:false }); try { window.scrollTo({top:0,behavior:'instant'}); } catch(e){ window.scrollTo(0,0); } }
+  closeAll() { this.setState({ activeBook:null, activeAuthor:null, activeEpisode:null, activePost:null, showJoin:false }); }
+  downloadICS(ev) {
+    const esc = s => String(s||'').replace(/\\/g,'\\\\').replace(/,/g,'\\,').replace(/;/g,'\\;').replace(/\n/g,'\\n');
+    const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Seb Lettering//ES','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:'+ev.id+'@seblettering.co','DTSTAMP:'+ev.dtStart,'DTSTART:'+ev.dtStart,'DTEND:'+ev.dtEnd,'SUMMARY:'+esc(ev.title),'DESCRIPTION:'+esc(ev.desc),'LOCATION:'+esc(ev.location),'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    const blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = ev.id+'.ics'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1500);
+  }
+
+  renderVals() {
+    const page = this.state.page;
+    const nav = [
+      { label:'Biblioteca', key:'biblioteca' },
+      { label:'Autores', key:'autores' },
+      { label:'Entrelazados', key:'entrelazados' },
+      { label:'Blog', key:'blog' },
+      { label:'Eventos', key:'eventos' },
+      { label:'Manifiesto', key:'manifiesto' },
+    ];
+    const navActive = (k) => page===k || (page==='autor' && k==='autores');
+    const navItems = nav.map(n => ({
+      label:n.label,
+      active: navActive(n.key),
+      color: navActive(n.key) ? '#E8DCC8' : '#A89070',
+      onClick: () => this.go(n.key),
+    }));
+
+    const books = [
+      { id:'b1', title:'Llegar, Despertar, Trascender', author:'Sebastián Llano Laverde', year:'2024', kicker:'Trilogía · La Abuela', status:'disponible', statusLabel:'Disponible', accent:'#6B1F1F',
+        ctaLabel:'Comprar en Amazon', buyUrl:'https://www.amazon.com/dp/B0FK5S95NF',
+        synopsis:'El primer testimonio del sello y la apertura de la trilogía fundadora. Una memoria narrada sin ficción: una vida que se negó al olvido y eligió ser grabada en papel.' },
+      { id:'b2', title:'Detrás del Nombre', author:'Alexandra Castrillón Gómez', year:'2021', kicker:'Voces del archivo', status:'disponible', statusLabel:'Disponible', accent:'#7a3326',
+        ctaLabel:'Comprar en Amazon', buyUrl:'https://www.amazon.com/dp/B08ZBMR2JN',
+        synopsis:'Un cuestionamiento de las imposiciones que cargamos con el nombre y la búsqueda de una identidad propia, contada desde lo más íntimo. (Sinopsis breve — ajustable.)' },
+      { id:'b3', title:'Asalé: Crónica de una posibilidad', author:'Carlos Willman Sotelo', year:'2024', kicker:'Voces del archivo', status:'disponible', statusLabel:'Disponible', accent:'#5a4a2a',
+        ctaLabel:'Comprar en Amazon', buyUrl:'https://www.amazon.com/dp/B0CW9CXGMV',
+        synopsis:'La historia de un esclavo en el Antiguo Egipto cuya vida parecía condenada al olvido. Guiado por las enseñanzas de su abuelo, Asalé desafía cada cadena y demuestra que la libertad nace en la mente. Una historia que no solo se lee, se respira.' },
+      { id:'b4', title:'Amore Mío', author:'Valentina Ramírez', year:'2025', kicker:'Voces del archivo', status:'disponible', statusLabel:'Disponible', accent:'#4a2a3a',
+        ctaLabel:'Comprar en Amazon', buyUrl:'https://www.amazon.com/dp/B0FLVQSH3D',
+        synopsis:'Un relato sobre el amor y sus huellas, rescatado del olvido y transformado en legado. (Sinopsis breve — ajustable con el texto real de la obra.)' },
+      { id:'b5', title:'Una Voz al Paso del Eclipse', author:'Adriana Rueda', year:'2025', kicker:'Voces del archivo', status:'disponible', statusLabel:'Disponible', accent:'#3a3a2a',
+        ctaLabel:'Comprar en Amazon', buyUrl:'https://www.amazon.com/dp/B0GX2ZQJPT',
+        synopsis:'La voz que persiste cuando todo se oscurece: un testimonio de resistencia y memoria. (Sinopsis breve — ajustable con el texto real de la obra.)' },
+      { id:'b6', title:'La Mamá', author:'Sebastián Llano Laverde', year:'2026', kicker:'Trilogía · II', status:'pronto', statusLabel:'Próximamente', accent:'#6B1F1F',
+        ctaLabel:'Notifícame', synopsis:'El segundo trazo de la trilogía. Una vida de cuidado y silencios, rescatada antes de que el tiempo la disuelva.' },
+      { id:'b7', title:'El Abuelo', author:'Sebastián Llano Laverde', year:'2027', kicker:'Trilogía · III', status:'pronto', statusLabel:'FILBO 2027', accent:'#5a4a2a',
+        ctaLabel:'Notifícame', synopsis:'El cierre de la trilogía fundadora. El oficio, la tierra y las palabras que nunca se dijeron en voz alta.' },
+    ];
+    const withBookExtra = b => { const obj = {
+      ...b,
+      statusColor: b.status==='disponible' ? '#C9A84C' : '#A89070',
+      statusBorder: b.status==='disponible' ? '#C9A84C' : '#3D1A0A',
+    }; obj.onClick = () => this.setState({ activeBook:obj }); obj.buy = () => { if(b.buyUrl) window.open(b.buyUrl,'_blank','noopener'); else this.setState({ showJoin:true, activeBook:null }); }; return obj; };
+    const allBooks = books.map(withBookExtra);
+    const filter = this.state.filter;
+    const filteredBooks = allBooks.filter(b => filter==='todos' ? true : b.status===filter);
+
+    const mkFilter = (key,label) => {
+      const on = filter===key;
+      return { label, onClick:()=>this.setState({filter:key}),
+        color: on?'#1A1008':'#A89070', bg: on?'#C9A84C':'transparent', border: on?'#C9A84C':'#3D1A0A' };
+    };
+    const filters = [ mkFilter('todos','Todos'), mkFilter('disponible','Disponible'), mkFilter('pronto','Pronto') ];
+
+    const rawAuthors = [
+      { name:'Sebastián Llano Laverde', role:'Fundador · Notario', accent:'#6B1F1F', bio:'Escritor, diseñador y soñador. Fundó Seb Lettering en 2024 para custodiar lo real. Conduce Entrelazados y escribe tres vidas cada año.' },
+      { name:'Alexandra Castrillón Gómez', role:'Autora · Detrás del Nombre', accent:'#7a3326', bio:'Explora la identidad detrás del nombre y el cuestionamiento de las imposiciones que cargamos desde siempre.' },
+      { name:'Carlos Willman Sotelo', role:'Autor · Asalé', accent:'#5a4a2a', bio:'Autor de Asalé: crónica de una posibilidad. Escribe sobre la libertad que nace en la mente, incluso entre cadenas.' },
+      { name:'Valentina Ramírez', role:'Autora · Amore Mío', accent:'#4a2a3a', bio:'Narra el amor y sus huellas, transformando lo vivido en legado escrito.' },
+      { name:'Adriana Rueda', role:'Autora · Una Voz al Paso del Eclipse', accent:'#3a3a2a', bio:'Su voz persiste cuando todo se oscurece: un testimonio de resistencia y memoria.' },
+      { name:'Camila Duarte', role:'Autora invitada', accent:'#2a3a3a', bio:'Bio placeholder. Su pluma desnuda la esencia del proceso creativo.' },
+      { name:'Felipe Arango', role:'Autor invitado', accent:'#5a2a2a', bio:'Bio placeholder. Explora la memoria como entramado de luces y sombras.' },
+      { name:'Lucía Mejía', role:'Autora invitada', accent:'#3a2a4a', bio:'Bio placeholder. Convierte heridas y victorias en capítulos del colectivo.' },
+      { name:'Daniel Rojas', role:'Autor invitado', accent:'#2a4a3a', bio:'Bio placeholder. Cree que compartir la realidad nos reconoce en el otro.' },
+      { name:'Sofía Naranjo', role:'Autora invitada', accent:'#4a3a2a', bio:'Bio placeholder. Transforma lo cotidiano en algo eterno.' },
+      { name:'Esteban Quintero', role:'Autor invitado', accent:'#6B1F1F', bio:'Bio placeholder. Guardián de testimonios que trascienden el papel.' },
+    ];
+    const initials = n => n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const authors = rawAuthors.map(a => ({ ...a, initials:initials(a.name), onClick:()=>this.setState({activeAuthor:a, _ai:initials(a.name)}) }));
+    // attach initials onto active via map (activeAuthor stored raw, add initials when set)
+
+    const rawEpisodes = [
+      { num:'01', tag:'T1 · E1', guest:'Alexandra Castrillón', title:'Propósito, Talento e Identidad', videoId:'Gl1QEg7ITiY', summary:'¿Cómo encontrar tu propósito de vida y alinear tu talento con tu identidad? En el episodio estreno converso con Alexandra Castrillón —mentora y pieza clave en la gestación de seb.lettering— sobre dejar la ficción atrás y construir una vida basada en la realidad.' },
+      { num:'02', tag:'T1 · E2', guest:'Carlos Sotelo', title:'Luz y Sombra', videoId:'OGMT2DmiO84', summary:'Con Carlos Sotelo exploramos «Luz y Sombra» como metáfora de las vivencias que, aunque invisibles, definen el hilo fino de nuestra realidad. Una charla honesta para entender que no somos una sola faceta, sino un tejido constante de matices.' },
+      { num:'03', tag:'T1 · E3', guest:'Valentina Ramírez', title:'Conexiones Creativas', videoId:'TNt8P2bqpFs', summary:'Con Valentina Ramírez nos detenemos en el punto exacto donde las ideas dejan de ser pensamiento para convertirse en realidad: el tejido invisible de las conexiones creativas, esa fuerza que une voluntades y sincroniza talentos.' },
+      { num:'04', tag:'T1 · E4', guest:'Adriana Rueda', title:'El Legado', videoId:'', summary:'Con Adriana Rueda reflexionamos sobre aquello que trasciende el tiempo: el legado. Lo que dejamos grabado en la vida de los demás y cómo nuestras acciones de hoy construyen el eco que resonará en el mañana.' },
+    ];
+    const episodes = rawEpisodes.map(e => { const o = { ...e,
+      thumb: e.videoId ? ('https://img.youtube.com/vi/'+e.videoId+'/hqdefault.jpg') : '',
+      hasThumb: !!e.videoId,
+      embed: e.videoId ? ('https://www.youtube.com/embed/'+e.videoId) : null,
+      noVideo: !e.videoId,
+    }; o.onClick = () => this.setState({ activeEpisode:o }); return o; });
+
+    const stats = [
+      { value:'11', label:'Autores' },
+      { value:'5', label:'Libros' },
+      { value:'2024', label:'Fundación' },
+      { value:'∞', label:'Historias' },
+    ];
+
+    const puertas = [
+      { kicker:'Para autores', title:'Tu historia merece el sello', cta:'Únete como autor', onClick:()=>this.setState({showJoin:true}),
+        body:'¿Ya escribiste tu obra? Intégrala a un sello que la custodia con respeto y la entrelaza con una entrevista exclusiva en Entrelazados.' },
+      { kicker:'Para lectores', title:'Detrás del libro hay una vida', cta:'Entrar al archivo', onClick:()=>this.go('biblioteca'),
+        body:'Lee testimonios reales, sin ficción. Cada volumen del archivo es una vida que se negó al olvido y eligió ser narrada.' },
+    ];
+
+    const manifiestoParas = [
+      'En Seb Lettering, creemos profundamente que cada ser humano es, en sí mismo, una biblioteca vasta y sagrada de experiencias que no pueden permitirse el olvido. Nuestra existencia no es una colección de fechas o eventos fríos, sino un entramado de conexiones, sombras, luces y verdades que definen nuestra esencia. Por eso, no somos simplemente un sello o un punto de paso; somos un refugio diseñado para salvaguardar la humanidad.',
+      'Entendemos que el camino de la creación es, a menudo, solitario, y por ello hemos abierto nuestras puertas a través de dos senderos que se encuentran en un mismo destino: la trascendencia. Para aquellos autores que ya han dado el paso valiente de escribir, nuestro sello ofrece mucho más que una validación; ofrece una comunidad. Tu libro gana un espacio privilegiado en nuestra biblioteca y se entrelaza con una entrevista exclusiva, donde desnudamos la esencia de tu proceso.',
+      'Sin embargo, sabemos que la chispa de una historia no siempre encuentra el camino hacia el papel de la misma forma. Por eso he decidido comprometer mi propia capacidad creativa con una misión íntima: inmortalizar personalmente tres vidas cada año. Si llevas dentro una historia que arde, pero no deseas escribirla, este es el lugar donde tu experiencia se convierte en un libro tangible, escrito desde la sensibilidad y la escucha activa.',
+      'Ya sea que decidas sumarte como autor independiente o que busquemos juntos la forma de darle voz a tu historia, aquí transformamos lo cotidiano en algo eterno. Creemos que, al compartir nuestras realidades, sanamos y nos reconocemos en el otro, rompiendo la barrera de la ficción para tocar la piel de la verdad. Tu historia, tus heridas y tus victorias son el capítulo que hoy le da sentido a este colectivo.',
+    ];
+
+    const ab = this.state.activeBook;
+    const aa = this.state.activeAuthor;
+    const activeAuthor = aa ? { ...aa, initials: initials(aa.name) } : null;
+
+    return {
+      navItems, stats, puertas, filters, filteredBooks,
+      authors, teaserEpisodes: episodes, episodesFull: episodes, manifiestoParas,
+      isHome: page==='home', isBiblioteca: page==='biblioteca', isAutores: page==='autores', isEntrelazados: page==='entrelazados', isManifiesto: page==='manifiesto',
+      goHome: ()=>this.go('home'), goBiblioteca: ()=>this.go('biblioteca'), goEntrelazados: ()=>this.go('entrelazados'),
+      openJoin: ()=>this.setState({showJoin:true, activeBook:null, activeAuthor:null, activeEpisode:null}),
+      closeModal: ()=>this.closeAll(), stop:(e)=>{ e.stopPropagation(); },
+      showBook: !!ab, activeBook: ab || {},
+      showAuthor: !!activeAuthor, activeAuthor: activeAuthor || {},
+      showEpisode: !!this.state.activeEpisode, activeEpisode: this.state.activeEpisode || {},
+      showJoin: this.state.showJoin,
+    };
+  }
+}
+</script>
+</body>
+</html>
