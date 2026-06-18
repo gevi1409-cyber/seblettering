@@ -279,6 +279,96 @@
   </div>
   </sc-if>
 
+  <!-- ============ BLOG ============ -->
+  <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Blog" style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(20px,5vw,56px);">
+    <div style="margin-bottom:36px;max-width:44em;">
+      <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#A89070;margin-bottom:14px;">La bitácora</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,6vw,72px);margin:0 0 18px;color:#E8DCC8;line-height:1;">Bitácora</h1>
+      <p style="font-family:'Lora',serif;font-size:18px;line-height:1.6;color:#A89070;max-width:40em;margin:0;">Apuntes desde el taller del sello. Reflexiones sobre el oficio de grabar memorias, la escucha como método y las vidas que se niegan al olvido.</p>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;border-bottom:1px solid #3D1A0A;padding-bottom:20px;">
+      <sc-for list="{{ blogFilters }}" as="f" hint-placeholder-count="5">
+        <div onClick="{{ f.onClick }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;border-radius:2px;border:1px solid {{ f.border }};color:{{ f.color }};background:{{ f.bg }};transition:all .2s ease;">{{ f.label }}</div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ showFeatured }}" hint-placeholder-val="{{ true }}">
+    <div onClick="{{ featuredPost.onClick }}" style="cursor:pointer;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0;align-items:stretch;margin-bottom:clamp(40px,6vw,64px);border:1px solid #3D1A0A;border-radius:4px;overflow:hidden;background:linear-gradient(160deg,#211508,#1A1008);transition:all .3s ease;" style-hover="border-color:#C9A84C;">
+      <div style="position:relative;min-height:260px;overflow:hidden;background:linear-gradient(150deg,{{ featuredPost.accent }},#1A1008 130%);">
+        <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.12;background-image:repeating-linear-gradient(135deg,#E8DCC8 0 1px,transparent 1px 9px);"></div>
+        <div style="position:absolute;top:14px;left:16px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8DCC8;background:rgba(107,31,31,0.9);padding:5px 11px;border-radius:2px;">Destacado</div>
+        <div style="position:absolute;bottom:14px;left:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(232,220,200,0.4);">// imagen — placeholder</div>
+      </div>
+      <div style="padding:clamp(28px,3.5vw,44px);display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:14px;">{{ featuredPost.catLabel }}</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,3.6vw,44px);line-height:1.05;margin:0 0 16px;color:#E8DCC8;">{{ featuredPost.title }}</h2>
+        <p style="font-family:'Lora',serif;font-size:16px;line-height:1.65;color:#A89070;margin:0 0 24px;">{{ featuredPost.excerpt }}</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;">
+          <span>{{ featuredPost.author }}</span><span style="color:#6B1F1F;">·</span><span>{{ featuredPost.date }}</span><span style="color:#6B1F1F;">·</span><span>{{ featuredPost.read }}</span>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:28px;">
+      <sc-for list="{{ gridPosts }}" as="p" hint-placeholder-count="4">
+        <div onClick="{{ p.onClick }}" style="cursor:pointer;display:flex;flex-direction:column;border:1px solid #3D1A0A;border-radius:4px;overflow:hidden;background:linear-gradient(160deg,#211508,#1A1008);transition:all .25s ease;" style-hover="border-color:#C9A84C;transform:translateY(-4px);">
+          <div style="position:relative;aspect-ratio:16/10;overflow:hidden;background:linear-gradient(150deg,{{ p.accent }},#1A1008 130%);">
+            <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.12;background-image:repeating-linear-gradient(135deg,#E8DCC8 0 1px,transparent 1px 9px);"></div>
+            <div style="position:absolute;top:12px;left:12px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;background:rgba(26,16,8,0.72);padding:5px 10px;border-radius:2px;">{{ p.catLabel }}</div>
+          </div>
+          <div style="padding:22px;display:flex;flex-direction:column;flex:1;">
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;line-height:1.12;margin:0 0 10px;color:#E8DCC8;">{{ p.title }}</h3>
+            <p style="font-family:'Lora',serif;font-size:14px;line-height:1.55;color:#A89070;margin:0 0 18px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;flex:1;">{{ p.excerpt }}</p>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;"><span style="color:#C9A84C;">{{ p.author }}</span><span style="color:#6B1F1F;">·</span>{{ p.date }}<span style="color:#6B1F1F;">·</span>{{ p.read }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ EVENTOS ============ -->
+  <sc-if value="{{ isEventos }}" hint-placeholder-val="{{ false }}">
+  <div data-screen-label="Eventos" style="max-width:1080px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(20px,5vw,56px);">
+    <div style="margin-bottom:48px;max-width:44em;">
+      <div style="font-family:'Inter',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#A89070;margin-bottom:14px;">La agenda</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(40px,6vw,72px);margin:0 0 18px;color:#E8DCC8;line-height:1;">Eventos</h1>
+      <p style="font-family:'Lora',serif;font-size:18px;line-height:1.6;color:#A89070;max-width:40em;margin:0;">Lanzamientos, grabaciones de Entrelazados y encuentros donde la memoria se vuelve presencia. Cada cita es una ocasión para honrar lo real, en voz alta.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:18px;">
+      <sc-for list="{{ events }}" as="e" hint-placeholder-count="4">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:0;align-items:stretch;border:1px solid #3D1A0A;border-radius:4px;overflow:hidden;background:linear-gradient(160deg,#211508,#1A1008);opacity:{{ e.opacity }};transition:all .25s ease;" style-hover="border-color:#6B1F1F;">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:clamp(90px,13vw,128px);padding:24px 16px;background:rgba(107,31,31,0.18);border-right:1px solid #3D1A0A;">
+            <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#C9A84C;">{{ e.month }}</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(40px,5vw,54px);line-height:1;color:#E8DCC8;">{{ e.day }}</div>
+            <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;color:#A89070;">{{ e.year }}</div>
+          </div>
+          <div style="padding:clamp(22px,3vw,30px) clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;">
+              <span style="font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#1A1008;background:#C9A84C;padding:4px 10px;border-radius:2px;">{{ e.type }}</span>
+              <span style="font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;border:1px solid {{ e.statusBorder }};color:{{ e.statusColor }};">{{ e.statusLabel }}</span>
+            </div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(24px,3vw,34px);line-height:1.08;margin:0;color:#E8DCC8;">{{ e.title }}</h3>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;">
+              <span style="color:#C9A84C;">{{ e.time }}</span><span style="color:#6B1F1F;">·</span><span>{{ e.location }}</span>
+            </div>
+            <p style="font-family:'Lora',serif;font-size:15px;line-height:1.6;color:#A89070;margin:4px 0 4px;max-width:48em;">{{ e.desc }}</p>
+            <sc-if value="{{ e.canAdd }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top:4px;">
+              <div onClick="{{ e.addToCal }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8DCC8;padding:11px 20px;background:#6B1F1F;border-radius:2px;transition:all .25s ease;" style-hover="background:#822727;"><span style="font-size:14px;line-height:1;">＋</span> Añadir al calendario</div>
+            </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
   </main>
 
   <!-- ============ FOOTER ============ -->
@@ -291,6 +381,7 @@
           @seb.lettering
         </a>
         <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#A89070;">Notaría del Alma · Colombia · 2024</div>
+        <a href="Admin.dc.html" style="text-decoration:none;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6B5436;transition:color .25s ease;" style-hover="color:#C9A84C;">Panel editorial</a>
       </div>
     </div>
   </footer>
@@ -366,6 +457,33 @@
           <span style="flex:none;display:inline-flex;align-items:center;gap:9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"></path></svg>YouTube</span>
         </a>
       </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MODAL: POST ============ -->
+  <sc-if value="{{ showPost }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(8,5,2,0.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:start center;padding:24px;overflow-y:auto;">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:680px;margin:auto;background:#211508;border:1px solid #3D1A0A;border-radius:4px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,0.6);">
+      <div style="position:relative;aspect-ratio:21/9;overflow:hidden;background:linear-gradient(150deg,{{ activePost.accent }},#1A1008 130%);">
+        <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.12;background-image:repeating-linear-gradient(135deg,#E8DCC8 0 1px,transparent 1px 9px);"></div>
+        <div onClick="{{ closeModal }}" style="position:absolute;top:16px;right:16px;cursor:pointer;width:32px;height:32px;border-radius:50%;background:rgba(26,16,8,0.7);border:1px solid #3D1A0A;display:grid;place-items:center;color:#E8DCC8;transition:all .2s ease;" style-hover="border-color:#C9A84C;">✕</div>
+        <div style="position:absolute;bottom:14px;left:18px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(232,220,200,0.4);">// imagen — placeholder</div>
+      </div>
+      <div style="padding:clamp(28px,4vw,44px);">
+        <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:14px;">{{ activePost.catLabel }}</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(28px,4vw,42px);line-height:1.05;margin:0 0 18px;color:#E8DCC8;">{{ activePost.title }}</h2>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid #3D1A0A;">
+          <span>{{ activePost.author }}</span><span style="color:#6B1F1F;">·</span><span>{{ activePost.date }}</span><span style="color:#6B1F1F;">·</span><span>{{ activePost.read }}</span>
+        </div>
+        <sc-for list="{{ activePost.body }}" as="para" hint-placeholder-count="3">
+          <p style="font-family:'Lora',serif;font-size:16px;line-height:1.8;color:#D8C9AE;margin:0 0 22px;text-wrap:pretty;">{{ para }}</p>
+        </sc-for>
+        <div style="margin-top:8px;padding-top:24px;border-top:1px solid #3D1A0A;display:flex;gap:12px;flex-wrap:wrap;">
+          <div onClick="{{ openJoin }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8DCC8;padding:13px 22px;background:#6B1F1F;border-radius:2px;transition:all .25s ease;" style-hover="background:#822727;">Comparte tu historia</div>
+          <div onClick="{{ goEntrelazados }}" style="cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;padding:13px 22px;border:1px solid #3D1A0A;border-radius:2px;transition:all .25s ease;" style-hover="border-color:#C9A84C;">Ir al podcast</div>
+        </div>
+      </div>
     </div>
   </div>
   </sc-if>
@@ -497,6 +615,97 @@ class Component extends DCLogic {
       noVideo: !e.videoId,
     }; o.onClick = () => this.setState({ activeEpisode:o }); return o; });
 
+    // ===== BLOG =====
+    const blogCat = this.state.blogCat;
+    const catLabels = { oficio:'El oficio', memoria:'Memoria', detras:'Detrás del libro', comunidad:'Comunidad' };
+    const rawPosts = [
+      { id:'p1', cat:'oficio', accent:'#6B1F1F', date:'12 Jun 2026', read:'6 min lectura', author:'Sebastián Llano',
+        title:'Escribir sin ficción: la disciplina de lo real',
+        excerpt:'Renunciar a inventar no es renunciar a narrar. Es la decisión de grabar lo que de verdad ocurrió, con la misma exigencia formal que cualquier novela.',
+        body:[
+          'Cuando fundé Seb Lettering tomé una decisión incómoda: no inventar vidas, grabarlas. Suena sencillo, pero escribir sin ficción es una disciplina más estricta que la invención. No puedes resolver una escena con un giro conveniente; tienes que esperar a que la persona te entregue la verdad, y eso rara vez ocurre en el orden que necesitas.',
+          'La materia prima es la memoria de alguien más, y la memoria es porosa, contradictoria, a veces cobarde. Mi trabajo no es corregirla, sino sostenerla hasta que revele su forma. Pregunto, callo, vuelvo a preguntar. Lo real no se improvisa: se merece.',
+          'Por eso cada libro del sello empieza por la escucha y termina por el respeto. Si una página no honra lo que pasó, no merece estar impresa. Esa es toda la poética que tenemos, y es suficiente.'
+        ] },
+      { id:'p2', cat:'memoria', accent:'#7a3326', date:'29 May 2026', read:'4 min lectura', author:'Sebastián Llano',
+        title:'La memoria no es un archivo, es una brasa',
+        excerpt:'Guardamos los recuerdos como si fueran documentos fríos. Pero la memoria arde: cambia de color según quién la sople. Escribirla es protegerla del viento.',
+        body:[
+          'Solemos hablar de la memoria como de un archivo: cajones, fechas, papeles ordenados. La verdad es que se parece más a una brasa. Basta un soplo —una pregunta, un olor, una canción— para que vuelva a tener color y temperatura.',
+          'Ese calor es el que buscamos cuando escribimos una vida. No queremos el inventario de los hechos, sino el momento en que la persona vuelve a sentirlos. Ahí, y solo ahí, aparece el libro.',
+          'Inmortalizar una historia es proteger esa brasa del viento del olvido. El papel no la apaga: la guarda encendida para quien venga después.'
+        ] },
+      { id:'p3', cat:'detras', accent:'#5a4a2a', date:'15 May 2026', read:'5 min lectura', author:'Carlos Willman Sotelo',
+        title:'Detrás de «Asalé»: la libertad nace en la mente',
+        excerpt:'Una crónica ambientada en el Antiguo Egipto que, en realidad, habla de las cadenas de hoy. El autor cuenta cómo encontró la historia detrás de la historia.',
+        body:[
+          'Cuando empecé a escribir «Asalé» creía que narraba el pasado. Tardé en entender que estaba escribiendo sobre el presente: sobre todas las cadenas que llevamos sin verlas. Mi abuelo me lo decía con otras palabras, y solo al ponerlo en papel lo comprendí.',
+          'El proceso con el sello me obligó a una honestidad que no esperaba. No bastaba con que la trama funcionara; tenía que ser fiel a lo que de verdad había aprendido. Esa exigencia hizo el libro mejor y, de paso, me hizo mejor a mí.',
+          'Hoy creo que la libertad, como la de Asalé, nace primero en la mente. Escribirla fue mi forma de ejercerla.'
+        ] },
+      { id:'p4', cat:'oficio', accent:'#4a2a3a', date:'30 Abr 2026', read:'7 min lectura', author:'Sebastián Llano',
+        title:'Escuchar es un oficio: cómo nacen las tres vidas del año',
+        excerpt:'Cada año me comprometo a inmortalizar tres historias de personas que no escribirán su libro. Esto es lo que aprendí sobre escuchar de verdad.',
+        body:[
+          'Tres vidas al año. Es la promesa que me hice y la que sostiene la parte más íntima del sello. Son historias de gente que arde por contar algo y que, por mil razones, no escribirá nunca su libro. Yo lo escribo por ellos.',
+          'El método no tiene secreto técnico: tiene tiempo. Sesiones largas, silencios respetados, la misma pregunta hecha de tres maneras distintas hasta que aparece la respuesta verdadera. Escuchar es un oficio que se entrena, no un don que se tiene.',
+          'Al final entrego un libro tangible, escrito desde la sensibilidad y no desde la prisa. La persona se reconoce en sus páginas. Esa mirada, cuando sucede, vale todos los meses de trabajo.'
+        ] },
+      { id:'p5', cat:'comunidad', accent:'#3a3a2a', date:'18 Abr 2026', read:'3 min lectura', author:'Sebastián Llano',
+        title:'Por qué un sello editorial debería ser un refugio',
+        excerpt:'Publicar no debería ser una transacción solitaria. Pensamos el sello como una comunidad: un lugar donde tu obra gana vecinos, no solo un ISBN.',
+        body:[
+          'El camino de la creación suele ser solitario, y la industria a menudo lo agrava: te entrega un número de catálogo y te deja seguir solo. Nosotros queríamos lo contrario. Que entrar al sello fuera ganar vecinos.',
+          'Por eso cada autor se entrelaza con los demás a través de Entrelazados y de la biblioteca compartida. Tu libro convive con otras vidas, conversa con ellas, deja de estar a la intemperie.',
+          'Un sello, creemos, debería ser un refugio. Un lugar diseñado para salvaguardar la humanidad que cada obra contiene.'
+        ] },
+      { id:'p6', cat:'memoria', accent:'#5a2a2a', date:'02 Abr 2026', read:'4 min lectura', author:'Sebastián Llano',
+        title:'El sello de lacre: por qué cada libro lleva una marca',
+        excerpt:'No es un adorno. El lacre es un gesto antiguo que significa una sola cosa: esto es auténtico, y alguien responde por ello.',
+        body:[
+          'Elegimos un sello de lacre como emblema porque dice, sin palabras, lo que más nos importa: esto es auténtico y alguien responde por ello. En otra época, el lacre garantizaba que una carta no había sido abierta. El nuestro garantiza que una vida no ha sido inventada.',
+          'Cada libro que sale del sello lleva, simbólicamente, esa marca. Es una promesa de custodia: lo que está adentro es real y lo hemos honrado.',
+          'Nos gusta pensar que somos una notaría del alma. No certificamos firmas: certificamos memorias.'
+        ] },
+    ];
+    const allPosts = rawPosts.map(p => { const o = { ...p, catLabel: catLabels[p.cat] || p.cat }; o.onClick = () => this.setState({ activePost:o }); return o; });
+    const filteredPosts = allPosts.filter(p => blogCat==='todos' ? true : p.cat===blogCat);
+    const featuredPost = filteredPosts[0] || null;
+    const gridPosts = filteredPosts.slice(1);
+    const mkBlogFilter = (key,label) => { const on = blogCat===key; return { label, onClick:()=>this.setState({blogCat:key}), color:on?'#1A1008':'#A89070', bg:on?'#C9A84C':'transparent', border:on?'#C9A84C':'#3D1A0A' }; };
+    const blogFilters = [ mkBlogFilter('todos','Todos'), mkBlogFilter('oficio','El oficio'), mkBlogFilter('memoria','Memoria'), mkBlogFilter('detras','Detrás del libro'), mkBlogFilter('comunidad','Comunidad') ];
+
+    // ===== EVENTOS =====
+    const rawEvents = [
+      { id:'grabacion-t2', month:'Jul', day:'18', year:'2026', status:'proximo', type:'Podcast',
+        title:'Grabación abierta · Entrelazados T2', time:'6:00 PM', location:'Estudio Seb · Bogotá',
+        desc:'Asiste en vivo a la grabación del primer episodio de la segunda temporada. Cupos limitados; el público participa con preguntas al cierre.',
+        dtStart:'20260718T180000', dtEnd:'20260718T200000' },
+      { id:'taller-memoria', month:'Ago', day:'22', year:'2026', status:'proximo', type:'Taller',
+        title:'Taller: Escribir tu propia memoria', time:'10:00 AM – 1:00 PM', location:'Online · Zoom',
+        desc:'Tres horas de escucha activa y escritura guiada para empezar a poner tu historia en papel, con el método que usamos en el sello.',
+        dtStart:'20260822T100000', dtEnd:'20260822T130000' },
+      { id:'lanzamiento-mama', month:'Oct', day:'10', year:'2026', status:'proximo', type:'Lanzamiento',
+        title:'Lanzamiento de «La Mamá» · Trilogía II', time:'7:00 PM', location:'Librería Wilborada 1047 · Bogotá',
+        desc:'Presentación del segundo trazo de la trilogía fundadora, con lectura en voz alta y conversación abierta con el autor.',
+        dtStart:'20261010T190000', dtEnd:'20261010T210000' },
+      { id:'filbo-2027', month:'Abr', day:'25', year:'2027', status:'proximo', type:'Feria',
+        title:'«El Abuelo» en la FILBO 2027', time:'Por confirmar', location:'Corferias · Bogotá',
+        desc:'El cierre de la trilogía se presenta en la Feria Internacional del Libro de Bogotá. Hora y pabellón por confirmar.',
+        dtStart:'20270425T100000', dtEnd:'20270425T120000' },
+      { id:'lanzamiento-trilogia', month:'Nov', day:'23', year:'2024', status:'pasado', type:'Lanzamiento',
+        title:'Lanzamiento del sello · «Llegar, Despertar, Trascender»', time:'6:00 PM', location:'Bogotá',
+        desc:'El primer testimonio del archivo y el nacimiento oficial de Seb Lettering. El evento que abrió la trilogía fundadora.',
+        dtStart:'20241123T180000', dtEnd:'20241123T200000' },
+    ];
+    const events = rawEvents.map(e => { const o = { ...e,
+      statusLabel: e.status==='proximo' ? 'Próximo' : 'Realizado',
+      statusColor: e.status==='proximo' ? '#C9A84C' : '#A89070',
+      statusBorder: e.status==='proximo' ? '#C9A84C' : '#3D1A0A',
+      opacity: e.status==='pasado' ? '0.6' : '1',
+      canAdd: e.status==='proximo',
+    }; o.addToCal = () => this.downloadICS(o); return o; });
+
     const stats = [
       { value:'11', label:'Autores' },
       { value:'5', label:'Libros' },
@@ -526,6 +735,9 @@ class Component extends DCLogic {
       navItems, stats, puertas, filters, filteredBooks,
       authors, teaserEpisodes: episodes, episodesFull: episodes, manifiestoParas,
       isHome: page==='home', isBiblioteca: page==='biblioteca', isAutores: page==='autores', isEntrelazados: page==='entrelazados', isManifiesto: page==='manifiesto',
+      isBlog: page==='blog', isEventos: page==='eventos',
+      blogFilters, filteredPosts, featuredPost: featuredPost || {}, showFeatured: !!featuredPost, gridPosts, events,
+      showPost: !!this.state.activePost, activePost: this.state.activePost || {},
       goHome: ()=>this.go('home'), goBiblioteca: ()=>this.go('biblioteca'), goEntrelazados: ()=>this.go('entrelazados'),
       openJoin: ()=>this.setState({showJoin:true, activeBook:null, activeAuthor:null, activeEpisode:null}),
       closeModal: ()=>this.closeAll(), stop:(e)=>{ e.stopPropagation(); },

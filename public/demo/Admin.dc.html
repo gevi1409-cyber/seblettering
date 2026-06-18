@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#140C05}
+  ::selection{background:#6B1F1F;color:#E8DCC8}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#140C05}
+  ::-webkit-scrollbar-thumb{background:#3D1A0A;border-radius:6px}
+</style>
+</helmet>
+<div style="display:flex;height:100vh;min-height:600px;font-family:'Inter',sans-serif;color:#E8DCC8;background:#1A1008;overflow:hidden;">
+
+  <!-- ===== SIDEBAR / COLLECTIONS ===== -->
+  <aside style="flex:none;width:248px;display:flex;flex-direction:column;background:#140C05;border-right:1px solid #3D1A0A;">
+    <div style="padding:20px 20px 18px;border-bottom:1px solid #3D1A0A;display:flex;align-items:center;gap:11px;">
+      <img src="uploads/sello.png" alt="Sello" style="width:34px;height:34px;flex:none;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:#C9A84C;letter-spacing:0.5px;line-height:1;">Seb Lettering</div>
+        <div style="font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:#A89070;margin-top:3px;">Panel de contenido</div>
+      </div>
+    </div>
+
+    <div style="padding:18px 14px 8px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#6B5436;">Colecciones</div>
+    <nav style="flex:1;overflow-y:auto;padding:0 10px;display:flex;flex-direction:column;gap:3px;">
+      <sc-for list="{{ collections }}" as="c" hint-placeholder-count="5">
+        <div onClick="{{ c.onClick }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:4px;background:{{ c.bg }};border:1px solid {{ c.border }};transition:all .18s ease;" style-hover="background:rgba(201,168,76,0.06);">
+          <span style="flex:none;width:28px;height:28px;border-radius:6px;display:grid;place-items:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:15px;background:{{ c.iconBg }};color:{{ c.iconColor }};border:1px solid {{ c.iconBorder }};">{{ c.icon }}</span>
+          <span style="flex:1;font-size:13px;font-weight:500;color:{{ c.labelColor }};">{{ c.label }}</span>
+          <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A89070;">{{ c.count }}</span>
+        </div>
+      </sc-for>
+    </nav>
+
+    <div style="padding:12px 12px;border-top:1px solid #3D1A0A;display:flex;flex-direction:column;gap:10px;">
+      <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:4px;border:1px solid #3D1A0A;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;transition:all .2s ease;" style-hover="border-color:#C9A84C;color:#E8DCC8;">← Ver sitio público</a>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 4px;">
+        <span style="flex:none;width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#6B1F1F,#1A1008);display:grid;place-items:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:14px;color:#E8DCC8;border:1px solid #6B1F1F;">SL</span>
+        <div style="min-width:0;">
+          <div style="font-size:12px;color:#E8DCC8;line-height:1.1;">Sebastián Llano</div>
+          <div style="font-size:10px;color:#A89070;">Editor en jefe</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:4px;background:rgba(201,168,76,0.06);">
+        <span style="flex:none;width:8px;height:8px;background:#5CB87A;border-radius:50%;box-shadow:0 0 0 3px rgba(92,184,122,0.18);"></span>
+        <span style="font-size:10.5px;letter-spacing:1px;color:#A89070;">Sincronizado con <span style="color:#C9A84C;font-weight:600;">Sanity</span></span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== DOCUMENT LIST ===== -->
+  <section style="flex:none;width:340px;display:flex;flex-direction:column;background:#1A1008;border-right:1px solid #3D1A0A;">
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #3D1A0A;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;">
+        <div>
+          <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;margin:0;color:#E8DCC8;line-height:1;">{{ activeCollection.label }}</h1>
+          <div style="font-size:11px;letter-spacing:1px;color:#A89070;margin-top:4px;">{{ activeCollection.count }} documentos · {{ activeCollection.type }}</div>
+        </div>
+        <div style="cursor:pointer;flex:none;display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#1A1008;background:#C9A84C;padding:9px 13px;border-radius:3px;transition:all .2s ease;" style-hover="background:#d8b75c;"><span style="font-size:14px;line-height:1;">＋</span> Nuevo</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:4px;border:1px solid #3D1A0A;background:#140C05;">
+        <span style="font-size:13px;color:#6B5436;">⌕</span>
+        <span style="font-size:12.5px;color:#6B5436;">Buscar en {{ activeCollection.label }}…</span>
+      </div>
+      <div style="display:flex;gap:7px;margin-top:14px;">
+        <sc-for list="{{ listTabs }}" as="t" hint-placeholder-count="3">
+          <div onClick="{{ t.onClick }}" style="cursor:pointer;font-size:10.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid {{ t.border }};color:{{ t.color }};background:{{ t.bg }};transition:all .18s ease;">{{ t.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:6px;">
+      <sc-for list="{{ docList }}" as="d" hint-placeholder-count="6">
+        <div onClick="{{ d.onClick }}" style="cursor:pointer;padding:13px 14px;border-radius:5px;border:1px solid {{ d.border }};background:{{ d.bg }};transition:all .18s ease;" style-hover="border-color:#6B1F1F;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;line-height:1.12;color:#E8DCC8;">{{ d.title }}</div>
+            <span style="flex:none;margin-top:2px;width:8px;height:8px;border-radius:50%;background:{{ d.dot }};"></span>
+          </div>
+          <div style="font-size:11px;color:#A89070;margin-top:5px;line-height:1.3;">{{ d.meta }}</div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:9px;">
+            <span style="font-size:9px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:3px 8px;border-radius:3px;border:1px solid {{ d.statusBorder }};color:{{ d.statusColor }};background:{{ d.statusBg }};">{{ d.statusLabel }}</span>
+            <span style="font-size:10px;color:#6B5436;font-family:'IBM Plex Mono',monospace;">{{ d.updated }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ===== EDITOR ===== -->
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column;background:linear-gradient(180deg,#1c1107,#1A1008);">
+    <div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:16px 28px;border-bottom:1px solid #3D1A0A;background:rgba(20,12,5,0.6);">
+      <div style="display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:1px;color:#A89070;">
+        <span>{{ activeCollection.label }}</span>
+        <span style="color:#6B1F1F;">/</span>
+        <span style="color:#E8DCC8;">{{ activeDoc.title }}</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:3px;border:1px solid {{ activeDoc.statusBorder }};color:{{ activeDoc.statusColor }};background:{{ activeDoc.statusBg }};">{{ activeDoc.statusLabel }}</span>
+        <div style="cursor:pointer;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#C9A84C;padding:9px 16px;border:1px solid #3D1A0A;border-radius:3px;transition:all .2s ease;" style-hover="border-color:#C9A84C;">Vista previa</div>
+        <div style="cursor:pointer;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#E8DCC8;padding:9px 18px;background:#6B1F1F;border-radius:3px;transition:all .2s ease;" style-hover="background:#822727;">Publicar</div>
+      </div>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:clamp(24px,4vw,48px);">
+      <div style="max-width:720px;margin:0 auto;">
+        <div style="font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#C9A84C;margin-bottom:12px;">{{ activeDoc.type }}</div>
+        <input value="{{ activeDoc.title }}" readonly style="width:100%;background:transparent;border:0;border-bottom:1px solid #3D1A0A;padding:0 0 16px;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,4vw,40px);color:#E8DCC8;outline:none;margin-bottom:32px;">
+
+        <sc-for list="{{ activeDoc.fields }}" as="fld" hint-placeholder-count="5">
+          <div style="margin-bottom:26px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#A89070;margin-bottom:9px;">{{ fld.label }}<sc-if value="{{ fld.required }}" hint-placeholder-val="{{ false }}"><span style="color:#6B1F1F;">obligatorio</span></sc-if></div>
+
+            <sc-if value="{{ fld.isImage }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative;width:100%;max-width:320px;aspect-ratio:16/10;border-radius:5px;overflow:hidden;border:1px dashed #3D1A0A;background:linear-gradient(150deg,#2a1410,#1A1008);display:grid;place-items:center;">
+                <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.1;background-image:repeating-linear-gradient(135deg,#E8DCC8 0 1px,transparent 1px 9px);"></div>
+                <div style="position:relative;text-align:center;">
+                  <div style="font-size:22px;color:#6B5436;">⌃</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:#6B5436;margin-top:4px;">arrastra una imagen</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ fld.isRich }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #3D1A0A;border-radius:5px;background:#140C05;overflow:hidden;">
+                <div style="display:flex;align-items:center;gap:14px;padding:9px 14px;border-bottom:1px solid #3D1A0A;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B5436;">
+                  <span style="color:#A89070;font-weight:600;">Normal</span><span>B</span><span style="font-style:italic;">I</span><span>“ ”</span><span>＋</span>
+                </div>
+                <div style="padding:18px 18px;">
+                  <sc-for list="{{ fld.blocks }}" as="b" hint-placeholder-count="2">
+                    <p style="font-family:'Lora',serif;font-size:15px;line-height:1.7;color:#D8C9AE;margin:0 0 14px;">{{ b }}</p>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ fld.isChip }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <sc-for list="{{ fld.chips }}" as="ch" hint-placeholder-count="1">
+                  <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;padding:7px 13px;border-radius:4px;border:1px solid {{ ch.border }};color:{{ ch.color }};background:{{ ch.bg }};">
+                    <sc-if value="{{ ch.isRef }}" hint-placeholder-val="{{ false }}"><span style="width:6px;height:6px;background:#C9A84C;transform:rotate(45deg);"></span></sc-if>
+                    {{ ch.label }}
+                  </span>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ fld.isMono }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:11px 14px;border-radius:4px;border:1px solid #3D1A0A;background:#140C05;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#C9A84C;">{{ fld.value }}</div>
+            </sc-if>
+
+            <sc-if value="{{ fld.isPlain }}" hint-placeholder-val="{{ true }}">
+              <div style="padding:12px 14px;border-radius:4px;border:1px solid #3D1A0A;background:#140C05;font-family:'Lora',serif;font-size:14.5px;line-height:1.55;color:#D8C9AE;">{{ fld.value }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+
+        <div style="margin-top:36px;padding-top:20px;border-top:1px solid #3D1A0A;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11px;color:#6B5436;font-family:'IBM Plex Mono',monospace;">
+          <span>Última edición · {{ activeDoc.updated }} · por Sebastián Llano</span>
+          <span>doc.id: {{ activeDoc.id }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = { collection:'blog', docId:null, tab:'todos' };
+
+  st(k){ return ({
+    pub:{label:'Publicado',color:'#C9A84C',border:'#C9A84C',bg:'rgba(201,168,76,0.12)',dot:'#5CB87A'},
+    draft:{label:'Borrador',color:'#A89070',border:'#3D1A0A',bg:'transparent',dot:'#6B5436'},
+    sched:{label:'Programado',color:'#E8DCC8',border:'#6B1F1F',bg:'rgba(107,31,31,0.2)',dot:'#C9A84C'},
+  })[k]; }
+
+  refChip(label){ return { label, isRef:true, color:'#C9A84C', bg:'rgba(201,168,76,0.08)', border:'#3D1A0A' }; }
+  tagChip(label){ return { label, isRef:false, color:'#E8DCC8', bg:'rgba(107,31,31,0.25)', border:'#6B1F1F' }; }
+
+  data(){
+    const richBlog = {
+      escribir:['Cuando fundé Seb Lettering tomé una decisión incómoda: no inventar vidas, grabarlas. Escribir sin ficción es una disciplina más estricta que la invención.','La materia prima es la memoria de alguien más, y la memoria es porosa, contradictoria. Mi trabajo no es corregirla, sino sostenerla hasta que revele su forma.'],
+      brasa:['Solemos hablar de la memoria como de un archivo. La verdad es que se parece más a una brasa: basta un soplo para que vuelva a tener color y temperatura.','Inmortalizar una historia es proteger esa brasa del viento del olvido.'],
+      asale:['Cuando empecé a escribir «Asalé» creía que narraba el pasado. Tardé en entender que escribía sobre el presente: sobre las cadenas que llevamos sin verlas.','La libertad, como la de Asalé, nace primero en la mente.'],
+      escuchar:['Tres vidas al año. Es la promesa que sostiene la parte más íntima del sello.','Escuchar es un oficio que se entrena, no un don que se tiene.'],
+      refugio:['El camino de la creación suele ser solitario. Queríamos que entrar al sello fuera ganar vecinos.','Un sello debería ser un refugio diseñado para salvaguardar la humanidad que cada obra contiene.'],
+      lacre:['Elegimos un sello de lacre porque dice, sin palabras, lo que más importa: esto es auténtico y alguien responde por ello.','Somos una notaría del alma. No certificamos firmas: certificamos memorias.'],
+    };
+    const blog = [
+      ['p1','Escribir sin ficción: la disciplina de lo real','Sebastián Llano','El oficio','escribir-sin-ficcion','12 Jun 2026','pub','Renunciar a inventar no es renunciar a narrar.',richBlog.escribir],
+      ['p2','La memoria no es un archivo, es una brasa','Sebastián Llano','Memoria','memoria-brasa','29 May 2026','pub','La memoria arde: cambia de color según quién la sople.',richBlog.brasa],
+      ['p3','Detrás de «Asalé»: la libertad nace en la mente','Carlos Willman Sotelo','Detrás del libro','detras-asale','15 May 2026','pub','Una crónica del Antiguo Egipto que habla de las cadenas de hoy.',richBlog.asale],
+      ['p4','Escuchar es un oficio: las tres vidas del año','Sebastián Llano','El oficio','escuchar-oficio','30 Abr 2026','draft','Cómo nacen las historias de quienes no escribirán su libro.',richBlog.escuchar],
+      ['p5','Por qué un sello editorial debería ser un refugio','Sebastián Llano','Comunidad','sello-refugio','18 Abr 2026','pub','Publicar no debería ser una transacción solitaria.',richBlog.refugio],
+      ['p6','El sello de lacre: por qué cada libro lleva una marca','Sebastián Llano','Memoria','sello-lacre','02 Abr 2026','sched','El lacre significa una sola cosa: esto es auténtico.',richBlog.lacre],
+    ].map(r=>({ id:r[0], type:'Artículo de blog', title:r[1], status:r[6], updated:r[5],
+      meta:r[2]+' · '+r[5],
+      fields:[
+        { label:'Autor', isChip:true, chips:[this.refChip(r[2])] },
+        { label:'Categoría', isChip:true, chips:[this.tagChip(r[3])] },
+        { label:'Slug', isMono:true, value:'/blog/'+r[4] },
+        { label:'Imagen de portada', isImage:true },
+        { label:'Extracto', isPlain:true, value:r[7] },
+        { label:'Cuerpo', isRich:true, blocks:r[8] },
+        { label:'Fecha de publicación', isPlain:true, value:r[5] },
+      ] }));
+
+    const eventos = [
+      ['e1','Grabación abierta · Entrelazados T2','Podcast','18 Jul 2026 · 6:00 PM','Estudio Seb · Bogotá','pub','Asiste en vivo a la grabación del primer episodio de la segunda temporada.','grabacion-t2.ics'],
+      ['e2','Taller: Escribir tu propia memoria','Taller','22 Ago 2026 · 10:00 AM','Online · Zoom','pub','Tres horas de escucha activa y escritura guiada para empezar tu historia.','taller-memoria.ics'],
+      ['e3','Lanzamiento de «La Mamá» · Trilogía II','Lanzamiento','10 Oct 2026 · 7:00 PM','Librería Wilborada 1047 · Bogotá','pub','Presentación del segundo trazo de la trilogía fundadora.','lanzamiento-mama.ics'],
+      ['e4','«El Abuelo» en la FILBO 2027','Feria','25 Abr 2027 · Por confirmar','Corferias · Bogotá','draft','Cierre de la trilogía en la Feria Internacional del Libro. Hora y pabellón por confirmar.','filbo-2027.ics'],
+      ['e5','Lanzamiento del sello · «Llegar, Despertar, Trascender»','Lanzamiento','23 Nov 2024 · 6:00 PM','Bogotá','pub','El primer testimonio del archivo y el nacimiento de Seb Lettering.','lanzamiento-trilogia.ics'],
+    ].map(r=>({ id:r[0], type:'Evento', title:r[1], status:r[5], updated:r[3].split(' · ')[0],
+      meta:r[3].split(' · ')[0]+' · '+r[4],
+      fields:[
+        { label:'Tipo de evento', isChip:true, chips:[this.tagChip(r[2])] },
+        { label:'Fecha y hora', isPlain:true, value:r[3] },
+        { label:'Lugar', isPlain:true, value:r[4] },
+        { label:'Descripción', isRich:true, blocks:[r[6]] },
+        { label:'Archivo de calendario (.ics)', isMono:true, value:'/eventos/'+r[7] },
+      ] }));
+
+    const libros = [
+      ['b1','Llegar, Despertar, Trascender','Sebastián Llano Laverde','2024','Trilogía · La Abuela','pub','El primer testimonio del sello y la apertura de la trilogía fundadora.','amazon.com/dp/B0FK5S95NF'],
+      ['b2','Detrás del Nombre','Alexandra Castrillón Gómez','2021','Voces del archivo','pub','Un cuestionamiento de las imposiciones que cargamos con el nombre.','amazon.com/dp/B08ZBMR2JN'],
+      ['b3','Asalé: Crónica de una posibilidad','Carlos Willman Sotelo','2024','Voces del archivo','pub','La libertad que nace en la mente, incluso entre cadenas.','amazon.com/dp/B0CW9CXGMV'],
+      ['b4','Amore Mío','Valentina Ramírez','2025','Voces del archivo','pub','El amor y sus huellas, rescatado del olvido y transformado en legado.','amazon.com/dp/B0FLVQSH3D'],
+      ['b5','Una Voz al Paso del Eclipse','Adriana Rueda','2025','Voces del archivo','pub','La voz que persiste cuando todo se oscurece.','amazon.com/dp/B0GX2ZQJPT'],
+      ['b6','La Mamá','Sebastián Llano Laverde','2026','Trilogía · II','sched','El segundo trazo de la trilogía. Una vida de cuidado y silencios.',''],
+      ['b7','El Abuelo','Sebastián Llano Laverde','2027','Trilogía · III','draft','El cierre de la trilogía fundadora.',''],
+    ].map(r=>({ id:r[0], type:'Libro', title:r[1], status:r[5], updated:r[3],
+      meta:r[2]+' · '+r[3],
+      fields:[
+        { label:'Autor', isChip:true, chips:[this.refChip(r[2])] },
+        { label:'Año', isPlain:true, value:r[3] },
+        { label:'Colección', isChip:true, chips:[this.tagChip(r[4])] },
+        { label:'Portada', isImage:true },
+        { label:'Sinopsis', isRich:true, blocks:[r[6]] },
+        { label:'Enlace de compra', isMono:true, value:r[7] ? ('https://'+r[7]) : '— sin asignar —' },
+      ] }));
+
+    const autores = [
+      ['a1','Sebastián Llano Laverde','Fundador · Notario','pub','Escritor, diseñador y soñador. Fundó Seb Lettering en 2024 para custodiar lo real.',['Llegar, Despertar, Trascender','La Mamá','El Abuelo']],
+      ['a2','Alexandra Castrillón Gómez','Autora · Detrás del Nombre','pub','Explora la identidad detrás del nombre y las imposiciones que cargamos.',['Detrás del Nombre']],
+      ['a3','Carlos Willman Sotelo','Autor · Asalé','pub','Escribe sobre la libertad que nace en la mente, incluso entre cadenas.',['Asalé: Crónica de una posibilidad']],
+      ['a4','Valentina Ramírez','Autora · Amore Mío','pub','Narra el amor y sus huellas, transformando lo vivido en legado.',['Amore Mío']],
+      ['a5','Adriana Rueda','Autora · Una Voz al Paso del Eclipse','pub','Su voz persiste cuando todo se oscurece: resistencia y memoria.',['Una Voz al Paso del Eclipse']],
+      ['a6','Camila Duarte','Autora invitada','draft','Bio pendiente de revisión editorial.',[]],
+      ['a7','Felipe Arango','Autor invitado','draft','Bio pendiente de revisión editorial.',[]],
+    ].map(r=>({ id:r[0], type:'Autor', title:r[1], status:r[3], updated:'—',
+      meta:r[2],
+      fields:[
+        { label:'Rol', isChip:true, chips:[this.tagChip(r[2])] },
+        { label:'Iniciales', isPlain:true, value:r[1].split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase() },
+        { label:'Retrato', isImage:true },
+        { label:'Biografía', isRich:true, blocks:[r[4]] },
+        { label:'Obras publicadas', isChip:true, chips:(r[5].length?r[5]:['— sin obras —']).map(t=> r[5].length? this.refChip(t) : this.tagChip(t)) },
+      ] }));
+
+    const episodios = [
+      ['ep1','Propósito, Talento e Identidad','Alexandra Castrillón','T1 · E1','Gl1QEg7ITiY','pub','Cómo alinear tu talento con tu identidad y dejar la ficción atrás.'],
+      ['ep2','Luz y Sombra','Carlos Sotelo','T1 · E2','OGMT2DmiO84','pub','Las vivencias invisibles que definen el hilo fino de nuestra realidad.'],
+      ['ep3','Conexiones Creativas','Valentina Ramírez','T1 · E3','TNt8P2bqpFs','pub','El tejido invisible que une voluntades y sincroniza talentos.'],
+      ['ep4','El Legado','Adriana Rueda','T1 · E4','','draft','Lo que trasciende el tiempo: el eco de nuestras acciones en los demás.'],
+    ].map(r=>({ id:r[0], type:'Episodio de Entrelazados', title:r[1], status:r[5], updated:r[3],
+      meta:'feat. '+r[2]+' · '+r[3],
+      fields:[
+        { label:'Invitado', isChip:true, chips:[this.refChip(r[2])] },
+        { label:'Temporada · Episodio', isPlain:true, value:r[3] },
+        { label:'YouTube video ID', isMono:true, value:r[4] ? r[4] : '— pendiente de grabación —' },
+        { label:'Miniatura', isImage:true },
+        { label:'Resumen', isRich:true, blocks:[r[6]] },
+      ] }));
+
+    return {
+      blog:    { label:'Bitácora',    type:'Artículos de blog', icon:'B', items:blog },
+      eventos: { label:'Eventos',     type:'Agenda del sello',  icon:'E', items:eventos },
+      libros:  { label:'Biblioteca',  type:'Catálogo de libros',icon:'L', items:libros },
+      autores: { label:'Autores',     type:'Comunidad',         icon:'A', items:autores },
+      episodios:{ label:'Entrelazados',type:'Episodios del podcast',icon:'P', items:episodios },
+    };
+  }
+
+  renderVals(){
+    const D = this.data();
+    const order = ['blog','eventos','libros','autores','episodios'];
+    const colKey = this.state.collection;
+    const col = D[colKey];
+
+    const collections = order.map(k=>{ const on = k===colKey; const c = D[k]; return {
+      label:c.label, count:c.items.length, icon:c.icon,
+      onClick:()=>this.setState({ collection:k, docId:null, tab:'todos' }),
+      bg: on?'rgba(201,168,76,0.1)':'transparent',
+      border: on?'#6B1F1F':'transparent',
+      labelColor: on?'#E8DCC8':'#A89070',
+      iconBg: on?'#6B1F1F':'#211508',
+      iconColor: on?'#E8DCC8':'#A89070',
+      iconBorder: on?'#6B1F1F':'#3D1A0A',
+    }; });
+
+    const tab = this.state.tab;
+    const tabDef = [ ['todos','Todos',null], ['pub','Publicados','pub'], ['draft','Borradores','draft'] ];
+    const listTabs = tabDef.map(t=>{ const on = tab===t[0]; return {
+      label:t[1], onClick:()=>this.setState({tab:t[0]}),
+      color:on?'#1A1008':'#A89070', bg:on?'#C9A84C':'transparent', border:on?'#C9A84C':'#3D1A0A',
+    }; });
+
+    let items = col.items;
+    if(tab==='pub') items = items.filter(i=>i.status==='pub');
+    else if(tab==='draft') items = items.filter(i=>i.status!=='pub');
+
+    const curId = this.state.docId || (col.items[0] && col.items[0].id);
+    const activeDoc = col.items.find(i=>i.id===curId) || col.items[0] || {};
+
+    const docList = items.map(i=>{ const s=this.st(i.status); const sel=i.id===activeDoc.id; return {
+      ...i, onClick:()=>this.setState({docId:i.id}),
+      statusLabel:s.label, statusColor:s.color, statusBorder:s.border, statusBg:s.bg, dot:s.dot,
+      bg: sel?'rgba(201,168,76,0.08)':'#211508', border: sel?'#C9A84C':'#3D1A0A',
+    }; });
+
+    const ads = this.st(activeDoc.status||'draft');
+    const activeDocOut = { ...activeDoc, statusLabel:ads.label, statusColor:ads.color, statusBorder:ads.border, statusBg:ads.bg };
+
+    return {
+      collections, listTabs, docList,
+      activeCollection:{ label:col.label, type:col.type, count:col.items.length },
+      activeDoc: activeDocOut,
+    };
+  }
+}
+</script>
+</body>
+</html>
